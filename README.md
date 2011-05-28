@@ -102,6 +102,36 @@ Instances of the `FacebookPage` model have the following properties:
 
 If the application is not accessed from a tab on a Facebook Page, `request.facebook.page` is `None`.
 
+### Templates
+
+A few helpers for using the Javascript SDK can be enabled by adding
+this to your base template in the ``<head>`` section:
+
+    {% load facebook %}
+    {% facebook_init %}
+        {% block facebook_code %}{% endblock %}
+    {% endfacebook %}
+
+And this should be added just before your ``</html>`` tag:
+
+    {% facebook_load %}
+
+The ``facebook_load`` template tag inserts the code required to
+asynchronously load the facebook javascript SDK. The ``facebook_init``
+tag calls ``FB.init`` with your configured application settings. It is
+best to put your facebook related javascript into the ``facebook_code``
+region so that it can be called by the asynchronous handler.
+
+You may find the ``facebook_perms`` tag useful, which takes the setting
+in FACEBOOK_APPLICATION_INITIAL_PERMISSIONS and prints the extended
+permissions out in a comma-separated list.
+
+    <fb:login-button show-faces="false" width="200" max-rows="1"
+      perms="{% facebook_perms %}"></fb:login-button>
+
+Once this is in place you are ready to start with the Facebook Javascript SDK.
+
+
 ## Installation
 
 * `pip install fandjango`
